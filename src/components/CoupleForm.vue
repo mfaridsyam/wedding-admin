@@ -10,6 +10,7 @@
       {{ success }}
     </div>
 
+    <!-- ── Identitas Pasangan ── -->
     <div class="form-section">
       <div class="section-header">
         <div class="section-num">01</div>
@@ -23,7 +24,7 @@
         <label>Slug URL <span class="req">*</span></label>
         <input
           v-model="form.slug" type="text"
-          placeholder="farid-nanda"
+          placeholder="rizky-rahayu"
           :disabled="isEdit"
           @input="form.slug = form.slug.toLowerCase().replace(/[^a-z0-9-]/g, '-')"
           required
@@ -34,25 +35,26 @@
       <div class="grid-2">
         <div class="field">
           <label>Nama Mempelai Pria <span class="req">*</span></label>
-          <input v-model="form.groom_name" type="text" placeholder="Muhammad Farid Syam, S.Kom" required />
+          <input v-model="form.groom_name" type="text" placeholder="Ahmad Rizky Pratama, S.T." required />
         </div>
         <div class="field">
           <label>Nama Mempelai Wanita <span class="req">*</span></label>
-          <input v-model="form.bride_name" type="text" placeholder="Steviayu Lestari, S.M" required />
+          <input v-model="form.bride_name" type="text" placeholder="Siti Rahayu Putri, S.Pd." required />
         </div>
       </div>
       <div class="grid-2">
         <div class="field">
           <label>Nama Panggil Pria</label>
-          <input v-model="form.groom_short" type="text" placeholder="Farid" />
+          <input v-model="form.groom_short" type="text" placeholder="Rizky" />
         </div>
         <div class="field">
           <label>Nama Panggil Wanita</label>
-          <input v-model="form.bride_short" type="text" placeholder="Stevi" />
+          <input v-model="form.bride_short" type="text" placeholder="Rahayu" />
         </div>
       </div>
     </div>
 
+    <!-- ── Data Orang Tua ── -->
     <div class="form-section">
       <div class="section-header">
         <div class="section-num">02</div>
@@ -63,19 +65,20 @@
       </div>
 
       <div class="grid-2">
-        <div class="field"><label>Ayah Mempelai Pria</label><input v-model="form.groom_father" placeholder="Alm. Bapak Syamsuddin Husain, S.E" /></div>
-        <div class="field"><label>Ibu Mempelai Pria</label><input v-model="form.groom_mother" placeholder="Nurbayani Amin, S.E" /></div>
+        <div class="field"><label>Ayah Mempelai Pria</label><input v-model="form.groom_father" placeholder="Bapak H. Ahmad Yusuf, S.E." /></div>
+        <div class="field"><label>Ibu Mempelai Pria</label><input v-model="form.groom_mother" placeholder="Ibu Hj. Siti Aminah" /></div>
       </div>
       <div class="grid-2">
-        <div class="field"><label>Urutan Anak (Pria)</label><input v-model="form.groom_title" placeholder="Anak Bungsu" /></div>
-        <div class="field"><label>Urutan Anak (Wanita)</label><input v-model="form.bride_title" placeholder="Anak Bungsu" /></div>
+        <div class="field"><label>Urutan Anak (Pria)</label><input v-model="form.groom_title" placeholder="Putra Pertama" /></div>
+        <div class="field"><label>Urutan Anak (Wanita)</label><input v-model="form.bride_title" placeholder="Putra Pertama" /></div>
       </div>
       <div class="grid-2">
-        <div class="field"><label>Ayah Mempelai Wanita</label><input v-model="form.bride_father" placeholder="Bapak Budi Santoso, S.Pd" /></div>
-        <div class="field"><label>Ibu Mempelai Wanita</label><input v-model="form.bride_mother" placeholder="Ibu Maya Indah, S.Pd" /></div>
+        <div class="field"><label>Ayah Mempelai Wanita</label><input v-model="form.bride_father" placeholder="Bapak Ir. Budi Santoso" /></div>
+        <div class="field"><label>Ibu Mempelai Wanita</label><input v-model="form.bride_mother" placeholder="Ibu Dr. Maya Indah" /></div>
       </div>
     </div>
 
+    <!-- ── Acara ── -->
     <div class="form-section">
       <div class="section-header">
         <div class="section-num">03</div>
@@ -121,6 +124,7 @@
       </div>
     </div>
 
+    <!-- ── Foto Mempelai ── -->
     <div class="form-section">
       <div class="section-header">
         <div class="section-num">04</div>
@@ -161,6 +165,7 @@
       </div>
     </div>
 
+    <!-- ── Galeri Foto ── -->
     <div class="form-section">
       <div class="section-header">
         <div class="section-num">05</div>
@@ -190,6 +195,7 @@
       </div>
     </div>
 
+    <!-- ── Musik Latar ── -->
     <div class="form-section">
       <div class="section-header">
         <div class="section-num">06</div>
@@ -207,6 +213,7 @@
       </div>
     </div>
 
+    <!-- ── Gift / Rekening ── -->
     <div class="form-section">
       <div class="section-header">
         <div class="section-num">07</div>
@@ -264,6 +271,7 @@
       </button>
     </div>
 
+    <!-- ── Actions ── -->
     <div class="form-actions">
       <router-link to="/" class="cancel-btn">Batal</router-link>
       <button type="submit" class="save-btn" :disabled="saving">
@@ -378,8 +386,10 @@ async function handleSubmit() {
     }
 
     if (props.isEdit) {
+      // ✅ update() hanya mengubah field yang ada, tidak menghapus wishes/guests
       await update(dbRef(db, `weddings/${slug}`), payload)
     } else {
+      // set() untuk pasangan baru — tidak ada data lain yang perlu dijaga
       await set(dbRef(db, `weddings/${slug}`), { ...payload, created_at: Date.now() })
     }
 
@@ -396,6 +406,7 @@ async function handleSubmit() {
 <style scoped>
 .couple-form { display: flex; flex-direction: column; gap: 0; }
 
+/* Alert */
 .form-alert {
   display: flex; align-items: center; gap: 8px;
   padding: 12px 16px; border-radius: 8px;
@@ -404,6 +415,7 @@ async function handleSubmit() {
 .form-alert.error   { background: rgba(200,80,80,.08); border: 1px solid rgba(200,80,80,.2); color: #c05050; }
 .form-alert.success { background: rgba(80,160,100,.08); border: 1px solid rgba(80,160,100,.2); color: #3a8a5a; }
 
+/* Section */
 .form-section {
   padding: 28px 0;
   border-bottom: 1px solid rgba(184,150,90,.1);
@@ -429,6 +441,7 @@ async function handleSubmit() {
 }
 .section-desc { font-size: 12px; color: var(--ink-muted); }
 
+/* Fields */
 .grid-2 {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 14px; margin-bottom: 14px;
@@ -468,6 +481,7 @@ input::placeholder { color: rgba(28,24,20,.25); font-size: 13px; }
 }
 .field-hint strong { color: var(--gold-dark); }
 
+/* Event block */
 .event-block {
   background: rgba(184,150,90,.04);
   border: 1px solid rgba(184,150,90,.12);
@@ -481,6 +495,7 @@ input::placeholder { color: rgba(28,24,20,.25); font-size: 13px; }
   margin-bottom: 16px;
 }
 
+/* Photo fields */
 .photo-preview-box {
   position: relative; width: 100%; height: 160px;
   border-radius: 10px; overflow: hidden;
@@ -513,6 +528,7 @@ input::placeholder { color: rgba(28,24,20,.25); font-size: 13px; }
 
 .url-input { font-size: 12px !important; }
 
+/* Gallery */
 .gallery-grid {
   display: grid; grid-template-columns: repeat(3, 1fr);
   gap: 12px;
@@ -538,8 +554,10 @@ input::placeholder { color: rgba(28,24,20,.25); font-size: 13px; }
   padding: 7px 10px !important;
 }
 
+/* Music preview */
 .music-preview { margin-top: 8px; }
 
+/* Gift */
 .gift-row {
   background: rgba(184,150,90,.03);
   border: 1px solid rgba(184,150,90,.1);
@@ -578,6 +596,7 @@ input::placeholder { color: rgba(28,24,20,.25); font-size: 13px; }
   border-color: rgba(184,150,90,.35);
 }
 
+/* Actions */
 .form-actions {
   display: flex; align-items: center; justify-content: flex-end;
   gap: 12px; padding-top: 24px;
