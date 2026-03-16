@@ -109,13 +109,11 @@ const search      = ref('')
 const copiedGuest = ref('')
 const baseUrl = 'https://janji-suci.vercel.app'
 
-// Load guests from Firebase
 onMounted(async () => {
   const snap = await get(dbRef(db, `weddings/${slug.value}/guests`))
   if (snap.exists()) guests.value = Object.values(snap.val())
 })
 
-// Save to Firebase whenever guests change
 async function saveGuests() {
   const obj = {}
   guests.value.forEach((g, i) => { obj[i] = g })
