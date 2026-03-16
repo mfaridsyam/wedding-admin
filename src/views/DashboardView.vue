@@ -121,11 +121,13 @@ const baseUrl    = 'https://janji-suci.vercel.app'
 onMounted(() => {
   onValue(dbRef(db, 'weddings'), snap => {
     console.log('total children:', snap.numChildren())
-    snap.forEach(c => console.log(c.key))
     loading.value = false
     if (!snap.exists()) { couples.value = []; return }
     const arr = []
-    snap.forEach(child => arr.push({ slug: child.key, ...child.val() }))
+    snap.forEach(child => {
+      console.log('child key:', child.key)
+      arr.push({ slug: child.key, ...child.val() })
+    })
     couples.value = arr.sort((a, b) => (b.created_at || 0) - (a.created_at || 0))
   })
 })
