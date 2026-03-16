@@ -120,6 +120,8 @@ const baseUrl    = 'https://janji-suci.vercel.app'
 
 onMounted(() => {
   onValue(dbRef(db, 'weddings'), snap => {
+    console.log('total children:', snap.numChildren())
+    snap.forEach(c => console.log(c.key))
     loading.value = false
     if (!snap.exists()) { couples.value = []; return }
     const arr = []
