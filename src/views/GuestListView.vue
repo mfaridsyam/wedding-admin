@@ -107,7 +107,7 @@ const newGuestName = ref('')
 const bulkText    = ref('')
 const search      = ref('')
 const copiedGuest = ref('')
-const baseUrl     = window.location.origin.replace('admin.', '') || 'https://inv-wedding.vercel.app'
+const baseUrl = 'https://janji-suci.vercel.app'
 
 // Load guests from Firebase
 onMounted(async () => {
