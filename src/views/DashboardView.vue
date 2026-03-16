@@ -84,7 +84,7 @@ const loading    = ref(true)
 const deleteSlug = ref(null)
 const deleting   = ref(false)
 const copiedSlug = ref('')
-const baseUrl    = window.location.origin.replace('admin.', '') || 'https://inv-wedding.vercel.app'
+const baseUrl = 'https://janji-suci.vercel.app'
 
 onMounted(() => {
   onValue(dbRef(db, 'weddings'), snap => {
