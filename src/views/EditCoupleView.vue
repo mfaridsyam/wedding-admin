@@ -38,7 +38,7 @@ const route     = useRoute()
 const slug      = computed(() => route.params.slug)
 const data      = ref(null)
 const loading   = ref(true)
-const previewUrl = computed(() => `${window.location.origin.replace('admin.', '')}/${slug.value}/`)
+const previewUrl = computed(() => `https://janji-suci.vercel.app/${slug.value}/`)
 
 onMounted(async () => {
   try {
