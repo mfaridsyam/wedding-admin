@@ -260,6 +260,7 @@
               <option value="BCA">BCA</option>
               <option value="BNI">BNI</option>
               <option value="BSI">BSI</option>
+              <option value="MANDIRI">MANDIRI</option>
               <option value="DANA">DANA</option>
             </select>
           </div>
@@ -322,11 +323,12 @@ const defaultQuote = 'Dan di antara tanda-tanda kebesaran-Nya ialah Dia mencipta
 const defaultGift = () => ({ bank: 'BRI', type: 'bank', holder: '', number: '', color1: '#1a4b8c', color2: '#0d2d5e' })
 
 const bankColors = {
-  BRI:  { color1: '#1a4b8c', color2: '#0d2d5e' },
-  BCA:  { color1: '#005aa7', color2: '#003d7a' },
-  BNI:  { color1: '#1a5276', color2: '#0e3352' },
-  BSI:  { color1: '#2e7d52', color2: '#1a5236' },
-  DANA: { color1: '#1188cc', color2: '#005fa3' },
+  BRI:     { color1: '#00529C', color2: '#003A6E' },
+  BCA:     { color1: '#0060AF', color2: '#003F87' },
+  BNI:     { color1: '#005E6A', color2: '#F15A24' },
+  BSI:     { color1: '#00A491', color2: '#006D62' },
+  MANDIRI: { color1: '#1C3E71', color2: '#FDB813' },
+  DANA:    { color1: '#118EEA', color2: '#0D76C4' },
 }
 
 const form = reactive({
