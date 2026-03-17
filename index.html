@@ -2,10 +2,49 @@
 <html lang="id">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no" />
     <title>Admin — Janji Suci</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <style>
+      * {
+        -webkit-user-select: none;
+        user-select: none;
+        touch-action: manipulation;
+      }
+      input, textarea, select, [contenteditable] {
+        -webkit-user-select: text;
+        user-select: text;
+        touch-action: auto;
+      }
+      img {
+        -webkit-user-select: none;
+        user-select: none;
+        -webkit-touch-callout: none;
+        pointer-events: none;
+      }
+      .photo-preview-box, .gallery-preview { pointer-events: auto; }
+      .photo-preview-box img, .gallery-preview img {
+        pointer-events: none;
+        -webkit-touch-callout: none;
+      }
+    </style>
+    <script>
+      let lastTap = 0
+      document.addEventListener('touchend', function(e) {
+        const now = Date.now()
+        if (now - lastTap < 300) e.preventDefault()
+        lastTap = now
+      }, { passive: false })
+
+      document.addEventListener('touchmove', function(e) {
+        if (e.touches.length > 1) e.preventDefault()
+      }, { passive: false })
+
+      document.addEventListener('contextmenu', function(e) {
+        if (e.target.tagName === 'IMG') e.preventDefault()
+      })
+    </script>
   </head>
   <body>
     <div id="app"></div>
