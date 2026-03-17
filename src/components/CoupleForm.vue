@@ -10,7 +10,6 @@
       {{ success }}
     </div>
 
-    <!-- ── Identitas Pasangan ── -->
     <div class="form-section">
       <div class="section-header">
         <div class="section-num">01</div>
@@ -54,7 +53,6 @@
       </div>
     </div>
 
-    <!-- ── Data Orang Tua ── -->
     <div class="form-section">
       <div class="section-header">
         <div class="section-num">02</div>
@@ -70,7 +68,7 @@
       </div>
       <div class="grid-2">
         <div class="field"><label>Urutan Anak (Pria)</label><input v-model="form.groom_title" placeholder="Putra Pertama" /></div>
-        <div class="field"><label>Urutan Anak (Wanita)</label><input v-model="form.bride_title" placeholder="Putra Pertama" /></div>
+        <div class="field"><label>Urutan Anak (Wanita)</label><input v-model="form.bride_title" placeholder="Putri Kedua" /></div>
       </div>
       <div class="grid-2">
         <div class="field"><label>Ayah Mempelai Wanita</label><input v-model="form.bride_father" placeholder="Bapak Ir. Budi Santoso" /></div>
@@ -78,7 +76,6 @@
       </div>
     </div>
 
-    <!-- ── Acara ── -->
     <div class="form-section">
       <div class="section-header">
         <div class="section-num">03</div>
@@ -124,7 +121,6 @@
       </div>
     </div>
 
-    <!-- ── Foto Mempelai ── -->
     <div class="form-section">
       <div class="section-header">
         <div class="section-num">04</div>
@@ -138,7 +134,7 @@
         <div class="field">
           <label>Foto Mempelai Pria</label>
           <div class="photo-preview-box" v-if="form.groom_photo">
-            <img :src="form.groom_photo" alt="Foto Pria" />
+            <img :src="form.groom_photo" alt="Foto Pria" draggable="false" />
             <button type="button" class="photo-remove" @click="form.groom_photo = ''">✕</button>
           </div>
           <div class="photo-empty" v-else>
@@ -152,7 +148,7 @@
         <div class="field">
           <label>Foto Mempelai Wanita</label>
           <div class="photo-preview-box" v-if="form.bride_photo">
-            <img :src="form.bride_photo" alt="Foto Wanita" />
+            <img :src="form.bride_photo" alt="Foto Wanita" draggable="false" />
             <button type="button" class="photo-remove" @click="form.bride_photo = ''">✕</button>
           </div>
           <div class="photo-empty" v-else>
@@ -165,7 +161,6 @@
       </div>
     </div>
 
-    <!-- ── Galeri Foto ── -->
     <div class="form-section">
       <div class="section-header">
         <div class="section-num">05</div>
@@ -178,7 +173,7 @@
       <div class="gallery-grid">
         <div v-for="i in 6" :key="i" class="gallery-item">
           <div class="gallery-preview" v-if="form.photos[i-1]">
-            <img :src="form.photos[i-1]" :alt="`Foto ${i}`" />
+            <img :src="form.photos[i-1]" :alt="`Foto ${i}`" draggable="false" />
             <button type="button" class="photo-remove" @click="form.photos[i-1] = ''">✕</button>
           </div>
           <div class="gallery-empty" v-else>
@@ -195,7 +190,6 @@
       </div>
     </div>
 
-    <!-- ── Musik Latar ── -->
     <div class="form-section">
       <div class="section-header">
         <div class="section-num">06</div>
@@ -213,10 +207,37 @@
       </div>
     </div>
 
-    <!-- ── Gift / Rekening ── -->
     <div class="form-section">
       <div class="section-header">
         <div class="section-num">07</div>
+        <div>
+          <h3 class="section-title">Kutipan</h3>
+          <p class="section-desc">Ayat atau quote yang ditampilkan di undangan</p>
+        </div>
+      </div>
+      <div class="field">
+        <label>Teks Kutipan</label>
+        <textarea
+          v-model="form.quote"
+          rows="4"
+          :placeholder="defaultQuote"
+        />
+        <span class="field-hint">Kosongkan untuk menggunakan kutipan default (QS. Ar-Rum : 21)</span>
+      </div>
+      <div class="field">
+        <label>Sumber Kutipan</label>
+        <input
+          v-model="form.quote_source"
+          type="text"
+          placeholder="QS. Ar-Rum : 21"
+        />
+        <span class="field-hint">Contoh: QS. Ar-Rum : 21 · Hadits Riwayat Muslim · dll.</span>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <div class="section-header">
+        <div class="section-num">08</div>
         <div>
           <h3 class="section-title">Gift / Rekening</h3>
           <p class="section-desc">Informasi rekening atau e-wallet</p>
@@ -238,11 +259,8 @@
               <option value="BRI">BRI</option>
               <option value="BCA">BCA</option>
               <option value="BNI">BNI</option>
-              <option value="Mandiri">Mandiri</option>
+              <option value="BSI">BSI</option>
               <option value="DANA">DANA</option>
-              <option value="GoPay">GoPay</option>
-              <option value="OVO">OVO</option>
-              <option value="ShopeePay">ShopeePay</option>
             </select>
           </div>
           <div class="field">
@@ -271,7 +289,6 @@
       </button>
     </div>
 
-    <!-- ── Actions ── -->
     <div class="form-actions">
       <router-link to="/" class="cancel-btn">Batal</router-link>
       <button type="submit" class="save-btn" :disabled="saving">
@@ -284,7 +301,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, watch } from 'vue'
+import { reactive, ref, watch, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { db } from '../firebase.js'
 import { ref as dbRef, set, update } from 'firebase/database'
@@ -300,17 +317,16 @@ const error   = ref('')
 const success = ref('')
 const baseUrl = 'https://janji-suci.vercel.app'
 
+const defaultQuote = 'Dan di antara tanda-tanda kebesaran-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya, dan Dia menjadikan di antaramu rasa kasih dan sayang.'
+
 const defaultGift = () => ({ bank: 'BRI', type: 'bank', holder: '', number: '', color1: '#1a4b8c', color2: '#0d2d5e' })
 
 const bankColors = {
-  BRI:       { color1: '#1a4b8c', color2: '#0d2d5e' },
-  BCA:       { color1: '#005aa7', color2: '#003d7a' },
-  BNI:       { color1: '#1a5276', color2: '#0e3352' },
-  Mandiri:   { color1: '#003087', color2: '#001a5e' },
-  DANA:      { color1: '#1188cc', color2: '#005fa3' },
-  GoPay:     { color1: '#00aed6', color2: '#007a99' },
-  OVO:       { color1: '#4c2a86', color2: '#2e1460' },
-  ShopeePay: { color1: '#ee4d2d', color2: '#c73a1e' },
+  BRI:  { color1: '#1a4b8c', color2: '#0d2d5e' },
+  BCA:  { color1: '#005aa7', color2: '#003d7a' },
+  BNI:  { color1: '#1a5276', color2: '#0e3352' },
+  BSI:  { color1: '#2e7d52', color2: '#1a5236' },
+  DANA: { color1: '#1188cc', color2: '#005fa3' },
 }
 
 const form = reactive({
@@ -321,6 +337,8 @@ const form = reactive({
   resepsi_time: '', resepsi_venue: '', resepsi_address: '', resepsi_maps: '',
   photos: ['', '', '', '', '', ''],
   music_url: '',
+  quote: '',
+  quote_source: '',
   gifts: [defaultGift()],
 })
 
@@ -330,6 +348,8 @@ watch(() => props.initialData, data => {
     ...data,
     photos: data.photos ? Object.values(data.photos).concat(Array(6).fill('')).slice(0, 6) : ['','','','','',''],
     gifts:  data.gifts  ? Object.values(data.gifts) : [defaultGift()],
+    quote:        data.quote        || '',
+    quote_source: data.quote_source || '',
   })
 }, { immediate: true })
 
@@ -342,6 +362,25 @@ watch(() => form.gifts, gifts => {
 
 function addGift()     { form.gifts.push(defaultGift()) }
 function removeGift(i) { form.gifts.splice(i, 1) }
+
+onMounted(() => {
+  document.addEventListener('touchmove', preventZoom, { passive: false })
+  document.addEventListener('touchend', preventDoubleTap, { passive: false })
+  document.addEventListener('contextmenu', preventImgContextMenu)
+})
+
+let lastTouchEnd = 0
+function preventDoubleTap(e) {
+  const now = Date.now()
+  if (now - lastTouchEnd < 300) e.preventDefault()
+  lastTouchEnd = now
+}
+function preventZoom(e) {
+  if (e.touches && e.touches.length > 1) e.preventDefault()
+}
+function preventImgContextMenu(e) {
+  if (e.target.tagName === 'IMG') e.preventDefault()
+}
 
 async function handleSubmit() {
   error.value = ''; success.value = ''; saving.value = true
@@ -381,15 +420,15 @@ async function handleSubmit() {
       resepsi_maps:    form.resepsi_maps,
       photos:          photosObj,
       music_url:       form.music_url,
+      quote:           form.quote,
+      quote_source:    form.quote_source,
       gifts:           giftsObj,
       updated_at:      Date.now(),
     }
 
     if (props.isEdit) {
-      // ✅ update() hanya mengubah field yang ada, tidak menghapus wishes/guests
       await update(dbRef(db, `weddings/${slug}`), payload)
     } else {
-      // set() untuk pasangan baru — tidak ada data lain yang perlu dijaga
       await set(dbRef(db, `weddings/${slug}`), { ...payload, created_at: Date.now() })
     }
 
@@ -406,7 +445,6 @@ async function handleSubmit() {
 <style scoped>
 .couple-form { display: flex; flex-direction: column; gap: 0; }
 
-/* Alert */
 .form-alert {
   display: flex; align-items: center; gap: 8px;
   padding: 12px 16px; border-radius: 8px;
@@ -415,7 +453,6 @@ async function handleSubmit() {
 .form-alert.error   { background: rgba(200,80,80,.08); border: 1px solid rgba(200,80,80,.2); color: #c05050; }
 .form-alert.success { background: rgba(80,160,100,.08); border: 1px solid rgba(80,160,100,.2); color: #3a8a5a; }
 
-/* Section */
 .form-section {
   padding: 28px 0;
   border-bottom: 1px solid rgba(184,150,90,.1);
@@ -441,7 +478,6 @@ async function handleSubmit() {
 }
 .section-desc { font-size: 12px; color: var(--ink-muted); }
 
-/* Fields */
 .grid-2 {
   display: grid; grid-template-columns: 1fr 1fr;
   gap: 14px; margin-bottom: 14px;
@@ -462,26 +498,27 @@ label {
 input, select, textarea {
   background: #faf7f2;
   border: 1px solid rgba(28,24,20,.1);
-  color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 14px;
+  color: var(--ink); font-family: 'DM Sans', sans-serif; font-size: 16px;
   padding: 10px 12px; border-radius: 8px; outline: none;
   transition: border-color .2s, background .2s;
   -webkit-appearance: none; width: 100%;
+  font-size: 16px !important;
 }
-input:focus, select:focus {
+input:focus, select:focus, textarea:focus {
   border-color: rgba(184,150,90,.45);
   background: #fff;
 }
 input:disabled {
   opacity: .5; cursor: not-allowed; background: rgba(28,24,20,.04);
 }
-input::placeholder { color: rgba(28,24,20,.25); font-size: 13px; }
+input::placeholder, textarea::placeholder { color: rgba(28,24,20,.25); font-size: 13px; }
+textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
 
 .field-hint {
   font-size: 11px; color: var(--ink-muted);
 }
 .field-hint strong { color: var(--gold-dark); }
 
-/* Event block */
 .event-block {
   background: rgba(184,150,90,.04);
   border: 1px solid rgba(184,150,90,.12);
@@ -495,7 +532,6 @@ input::placeholder { color: rgba(28,24,20,.25); font-size: 13px; }
   margin-bottom: 16px;
 }
 
-/* Photo fields */
 .photo-preview-box {
   position: relative; width: 100%; height: 160px;
   border-radius: 10px; overflow: hidden;
@@ -504,6 +540,10 @@ input::placeholder { color: rgba(28,24,20,.25); font-size: 13px; }
 }
 .photo-preview-box img {
   width: 100%; height: 100%; object-fit: cover;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
 }
 .photo-remove {
   position: absolute; top: 8px; right: 8px;
@@ -528,7 +568,6 @@ input::placeholder { color: rgba(28,24,20,.25); font-size: 13px; }
 
 .url-input { font-size: 12px !important; }
 
-/* Gallery */
 .gallery-grid {
   display: grid; grid-template-columns: repeat(3, 1fr);
   gap: 12px;
@@ -539,7 +578,13 @@ input::placeholder { color: rgba(28,24,20,.25); font-size: 13px; }
   border-radius: 8px; overflow: hidden;
   border: 1px solid rgba(184,150,90,.2);
 }
-.gallery-preview img { width: 100%; height: 100%; object-fit: cover; }
+.gallery-preview img {
+  width: 100%; height: 100%; object-fit: cover;
+  pointer-events: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
 .gallery-empty {
   aspect-ratio: 4/3;
   border: 1.5px dashed rgba(184,150,90,.2);
@@ -554,10 +599,8 @@ input::placeholder { color: rgba(28,24,20,.25); font-size: 13px; }
   padding: 7px 10px !important;
 }
 
-/* Music preview */
 .music-preview { margin-top: 8px; }
 
-/* Gift */
 .gift-row {
   background: rgba(184,150,90,.03);
   border: 1px solid rgba(184,150,90,.1);
@@ -596,7 +639,6 @@ input::placeholder { color: rgba(28,24,20,.25); font-size: 13px; }
   border-color: rgba(184,150,90,.35);
 }
 
-/* Actions */
 .form-actions {
   display: flex; align-items: center; justify-content: flex-end;
   gap: 12px; padding-top: 24px;
